@@ -1,0 +1,6 @@
+-r requirements.txt
+
+pytest==8.2.*
+pytest-mock==3.14.0
+pre-commit==3.8.0
+ruff==0.5.*
