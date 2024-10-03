@@ -8,7 +8,9 @@ def test_parser():
     question = Question.from_bytes(bytearray(data))
     reversed_data = question.to_bytes()
 
-    assert question.name == "google.com", f"Expected google.com, got {question.name}"
+    assert (
+        question.label.name == "google.com"
+    ), f"Expected google.com, got {question.label}"
     assert (
         question.record_type == RecordType.A
     ), f"Expected Record Type A, got {question.record_type}"
