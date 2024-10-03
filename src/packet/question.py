@@ -24,6 +24,7 @@ class Question:
             index += length
 
         name = ".".join(labels)
+        index += 1
 
         record_type = RecordType.from_bytes(data[index : index + 2])
         index += 2
@@ -36,7 +37,14 @@ class Question:
         )
 
     def to_bytes(self) -> bytes:
-        name = bytes(self.name, "ascii")
+        name_bytes = b""
+
+        for name in self.name.split("."):
+            name_bytes += len(name).to_bytes(1, "big")
+            name_bytes += bytes(name, "ascii")
+
+        name_bytes += b"\x00"
+
         record_type = self.record_type.to_bytes()
         record_class = self.record_class.to_bytes()
-        return name + record_type + record_class
+        return name_bytes + record_type + record_class
