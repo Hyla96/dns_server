@@ -1,4 +1,4 @@
-from src.header import Header
+from src.packet.header import Header
 
 
 def test_parser():
