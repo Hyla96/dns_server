@@ -2,7 +2,7 @@ class Header:
     def __init__(
         self,
         packet_identifier: int,
-        packet_query_response_indicator: int,
+        query_response_indicator: int,
         operation_code: int,
         authoritative_answer: int,
         truncation: int,
@@ -16,7 +16,7 @@ class Header:
         additional_record_count: int,
     ):
         self.packet_identifier = packet_identifier
-        self.packet_query_response_indicator = packet_query_response_indicator
+        self.query_response_indicator = query_response_indicator
         self.operation_code = operation_code
         self.authoritative_answer = authoritative_answer
         self.truncation = truncation
@@ -34,7 +34,7 @@ class Header:
         packet_identifier = int.from_bytes(data[0:2], byteorder="big")
 
         byte3 = int.from_bytes(data[2:3], byteorder="big")
-        packet_qr_indicator = byte3 >> 7
+        qr_indicator = byte3 >> 7
         operation_code = (byte3 & 0x78) >> 3
         authoritative_answer = (byte3 & 0x04) >> 2
         truncation = (byte3 & 0x02) >> 1
@@ -52,7 +52,7 @@ class Header:
 
         return Header(
             packet_identifier=packet_identifier,
-            packet_query_response_indicator=packet_qr_indicator,
+            query_response_indicator=qr_indicator,
             operation_code=operation_code,
             authoritative_answer=authoritative_answer,
             truncation=truncation,
@@ -65,3 +65,26 @@ class Header:
             authority_record_count=authority_record_count,
             additional_record_count=additional_record_count,
         )
+
+    def to_bytes(self) -> bytes:
+        result = b""
+        result += self.packet_identifier.to_bytes(2, byteorder="big")
+
+        byte3 = (
+            self.query_response_indicator << 7
+            | self.operation_code << 3
+            | self.authoritative_answer << 2
+            | self.truncation << 1
+            | self.recursion_desired
+        )
+        result += byte3.to_bytes(1, byteorder="big")
+
+        byte4 = self.recursion_available << 7 | self.reserved << 4 | self.response_code
+        result += byte4.to_bytes(1, byteorder="big")
+
+        result += self.question_count.to_bytes(2, byteorder="big")
+        result += self.answer_record_count.to_bytes(2, byteorder="big")
+        result += self.authority_record_count.to_bytes(2, byteorder="big")
+        result += self.additional_record_count.to_bytes(2, byteorder="big")
+
+        return result

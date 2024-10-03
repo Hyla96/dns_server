@@ -4,16 +4,15 @@ from src.packet.header import Header
 def test_parser():
     data = b"\x07\x65\x78\x61\x6d\x70\x6c\x65\x03\x63\x6f\x6d"
     header = Header.from_bytes(data)
-
-    print(header.packet_query_response_indicator)
+    reversed_data = header.to_bytes()
 
     assert (
         header.packet_identifier == 0x0765
     ), f"Expected 0x0765, got {header.packet_identifier}"
 
     assert (
-        header.packet_query_response_indicator == 0
-    ), f"Expected 0, got {header.packet_query_response_indicator}"
+        header.query_response_indicator == 0
+    ), f"Expected 0, got {header.query_response_indicator}"
     assert header.operation_code == 15, f"Expected 15, got {header.operation_code}"
     assert (
         header.authoritative_answer == 0
@@ -39,6 +38,10 @@ def test_parser():
     assert (
         header.additional_record_count == 0x6F6D
     ), f"Expected 0x6f6d, got {header.additional_record_count}"
+
+    assert (
+        data == reversed_data
+    ), f"Expected reversed data {data.hex()}, got {reversed_data.hex()}"
 
 
 if __name__ == "__main__":
