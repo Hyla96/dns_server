@@ -5,6 +5,7 @@ from src.packet.header import Header
 from src.packet.query_packet import QueryPacket
 from src.packet.answer import Answer
 from src.packet.reply_packet import ReplyPacket
+from src.server.server import start_server
 
 
 def create_response_packet(query_packet):
@@ -47,6 +48,8 @@ def create_response_packet(query_packet):
 def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("127.0.0.1", 2053))
+
+    start_server()
 
     print("DNS server listening on localhost:2053")
 

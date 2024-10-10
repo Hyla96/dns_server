@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI + HTMX</title>
+    <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
+</head>
+<body>
+<form hx-post="/records" hx-target="#records" hx-swap="beforeend" hx-on::after-request="this.reset()">
+    <input type="text" name="label" placeholder="example.com" required>
+    <input type="text" name="record_class" placeholder="IN" required>
+    <input type="text" name="record_type" placeholder="A" required>
+    <input type="number" name="ttl" placeholder="3600" required>
+    <button type="submit">Create</button>
+</form>
+
+<table >
+    <thead>
+    <tr>
+        <th>Label</th>
+        <th>Type</th>
+        <th>Class</th>
+        <th>TTL</th>
+    </tr>
+    </thead>
+    <tbody id="records" hx-get="/records" hx-swap="innerHTML" hx-trigger="load"></tbody>
+</table>
+
+
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = 'your-csrf-token-here'; // Replace with your actual CSRF token
+    });
+</script>
+</body>
+</html>
