@@ -22,12 +22,13 @@ class Question:
         record_type = RecordType.from_bytes(data[index : index + 2])
         index += 2
         record_class = RecordClass.from_bytes(data[index : index + 2])
+        index += 2
 
         return Question(
             label=label,
             record_type=record_type,
             record_class=record_class,
-        )
+        ), index
 
     def to_bytes(self) -> bytes:
         label = self.label.to_bytes()

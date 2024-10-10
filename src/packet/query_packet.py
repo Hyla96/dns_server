@@ -14,7 +14,7 @@ class QueryPacket:
     @staticmethod
     def from_bytes(data: bytearray):
         header = Header.from_bytes(data[:12])
-        question = Question.from_bytes(data[12:])
+        question, _ = Question.from_bytes(data[12:])
 
         return QueryPacket(header=header, question=question)
 
