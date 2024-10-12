@@ -1,8 +1,14 @@
 {% for record in records %}
-<tr>
-    <td>{{record.label}} </td>
-    <td>{{record.record_type}} </td>
-    <td>{{record.record_class}} </td>
-    <td>{{record.ttl}} </td>
+<tr class="hover:bg-gray-50">
+    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{record.label}}</td>
+    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{record.value}}</td>
+    <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500">{{record.record_type}}</td>
+    <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500">{{record.record_class}}</td>
+    <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500">{{record.ttl}}</td>
+    <td class="relative whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium">
+        <button hx-delete="/records/{{record.id}}" hx-target="closest tr" hx-swap="outerHTML swap:1s" class="text-indigo-600 hover:text-indigo-900">
+            Delete
+        </button>
+    </td>
 </tr>
 {% endfor %}

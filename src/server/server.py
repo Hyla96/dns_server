@@ -10,19 +10,30 @@ from typing import Union
 from pydantic import BaseModel
 
 
-class Record(BaseModel):
+class RecordBase(BaseModel):
     label: str
+    value: str
     record_type: str
     record_class: str
     ttl: int
 
+
+class RecordCreate(RecordBase):
+    pass
+
+
+class RecordDB(RecordBase):
+    id: int
+
     @staticmethod
     def from_sql_record(record):
-        return Record(
+        return RecordDB(
+            id=record[0],
             label=record[1],
-            record_type=record[2],
-            record_class=record[3],
-            ttl=record[4],
+            value=record[2],
+            record_type=record[3],
+            record_class=record[4],
+            ttl=record[5],
         )
 
 
@@ -43,23 +54,29 @@ async def list_records(
     cur = conn.cursor()
     res = cur.execute("SELECT * FROM records")
     sql_records = res.fetchall()
-    records = [Record.from_sql_record(record) for record in sql_records]
-
+    records = [RecordDB.from_sql_record(record) for record in sql_records]
+    print(records)
     return templates.TemplateResponse(
         request=request, name="records.html", context={"records": records}
     )
 
 
 @app.post("/records", response_class=HTMLResponse)
-async def create_record(request: Request, record: Annotated[Record, Form()]):
+async def create_record(request: Request, record: Annotated[RecordCreate, Form()]):
     cur = conn.cursor()
     try:
         cur.execute(
             """
-            INSERT INTO records (label, record_type, record_class, TTL)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO records (label, value, record_type, record_class, ttl)
+            VALUES (?, ?, ?, ?, ?)
         """,
-            (record.label, record.record_type, record.record_class, record.ttl),
+            (
+                record.label,
+                record.value,
+                record.record_type,
+                record.record_class,
+                record.ttl,
+            ),
         )
         conn.commit()
     except Exception:
@@ -68,6 +85,26 @@ async def create_record(request: Request, record: Annotated[Record, Form()]):
 
     return templates.TemplateResponse(
         request=request, name="records.html", context={"records": [record]}
+    )
+
+
+@app.delete("/records/{id}", response_class=HTMLResponse)
+async def delete_record(request: Request, id: int):
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            """
+            DELETE FROM records WHERE id = ?
+        """,
+            (id,),
+        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise HTTPException()
+
+    return templates.TemplateResponse(
+        request=request, name="records.html", context={"records": []}
     )
 
 

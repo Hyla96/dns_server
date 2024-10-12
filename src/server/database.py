@@ -23,9 +23,10 @@ def create_tables(conn):
         """CREATE TABLE IF NOT EXISTS records (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 label TEXT NOT NULL, 
+                value TEXT NOT NULL,
                 record_type TEXT NOT NULL, 
                 record_class TEXT DEFAULT 'IN',
-                TTL INTEGER DEFAULT 3600
+                ttl INTEGER DEFAULT 3600
         );"""
     ]
 
