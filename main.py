@@ -2,7 +2,7 @@ import sys
 import threading
 
 from src.dns_manager.http_server import start_http_server
-from src.packet.udp_server import start_udp_server
+from src.udp_server.server import start_udp_server
 
 
 def main():

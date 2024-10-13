@@ -1,6 +1,6 @@
-from src.packet.question import Question
-from src.packet.record_class import RecordClass
-from src.packet.record_type import RecordType
+from src.udp_server.question import Question
+from src.udp_server.record_class import RecordClass
+from src.udp_server.record_type import RecordType
 
 
 def test_parser():

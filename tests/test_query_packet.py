@@ -1,6 +1,6 @@
-from src.packet.query_packet import QueryPacket
-from src.packet.record_class import RecordClass
-from src.packet.record_type import RecordType
+from src.udp_server.query_packet import QueryPacket
+from src.udp_server.record_class import RecordClass
+from src.udp_server.record_type import RecordType
 
 
 def test_parser():

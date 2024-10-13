@@ -3,8 +3,8 @@ from typing import Union
 
 from pydantic import BaseModel, Field
 
-from src.packet.record_class import RecordClass
-from src.packet.record_type import RecordType
+from src.udp_server.record_class import RecordClass
+from src.udp_server.record_type import RecordType
 
 
 class RecordBase(BaseModel):

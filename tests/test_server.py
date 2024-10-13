@@ -1,12 +1,12 @@
 import socket
 
-from src.packet.header import Header
-from src.packet.label_sequence import LabelSequence
-from src.packet.query_packet import QueryPacket
-from src.packet.question import Question
-from src.packet.record_class import RecordClass
-from src.packet.record_type import RecordType
-from src.packet.reply_packet import ReplyPacket
+from src.udp_server.header import Header
+from src.udp_server.label_sequence import LabelSequence
+from src.udp_server.query_packet import QueryPacket
+from src.udp_server.question import Question
+from src.udp_server.record_class import RecordClass
+from src.udp_server.record_type import RecordType
+from src.udp_server.reply_packet import ReplyPacket
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 host = "127.0.0.1"

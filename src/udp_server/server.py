@@ -1,10 +1,10 @@
 import socket
 
-from src.packet.answer import Answer
-from src.packet.header import Header
-from src.packet.label_sequence import LabelSequence
-from src.packet.query_packet import QueryPacket
-from src.packet.reply_packet import ReplyPacket
+from src.udp_server.answer import Answer
+from src.udp_server.header import Header
+from src.udp_server.label_sequence import LabelSequence
+from src.udp_server.query_packet import QueryPacket
+from src.udp_server.reply_packet import ReplyPacket
 from src.dns_manager.database import get_record
 
 
@@ -67,7 +67,7 @@ def create_response_packet(query_packet):
         rdata=record.value,
     )
 
-    # Create the response packet
+    # Create the response udp_server
     response_packet = ReplyPacket(
         header=response_header, question=response_question, answer=response_answer
     )

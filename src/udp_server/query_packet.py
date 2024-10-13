@@ -1,5 +1,5 @@
-from src.packet.header import Header
-from src.packet.question import Question
+from src.udp_server.header import Header
+from src.udp_server.question import Question
 
 
 class QueryPacket:

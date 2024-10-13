@@ -1,6 +1,6 @@
-from src.packet.label_sequence import LabelSequence
-from src.packet.record_class import RecordClass
-from src.packet.record_type import RecordType
+from src.udp_server.label_sequence import LabelSequence
+from src.udp_server.record_class import RecordClass
+from src.udp_server.record_type import RecordType
 
 
 class Question:

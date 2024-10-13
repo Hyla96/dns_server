@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 import uvicorn
 from fastapi import FastAPI, Request
 
-from src.packet.record_type import RecordType
+from src.udp_server.record_type import RecordType
 
 app = FastAPI()
 templates = Jinja2Templates(directory="dns_manager/templates")
