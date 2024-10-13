@@ -4,7 +4,7 @@ setup: |
 	pre-commit install
 
 install:
-	uv pip install -r requirements.txt
+	uv pip install -r requirements.txt -r requirements_dev.txt
 
 generate_requirements:
 	uv pip compile requirements.in -o requirements.txt

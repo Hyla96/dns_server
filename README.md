@@ -13,6 +13,7 @@ This project implements a simple DNS server using Python 3.12, SQLite, and FastA
 - Python 3.12 or higher
 - Make 3.81 or higher
 - uv 0.4.10
+- pre-commit 4.0.1
 
 ## Installation
 
