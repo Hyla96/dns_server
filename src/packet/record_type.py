@@ -20,6 +20,10 @@ class RecordType(Enum):
     TXT = 16  # Text strings
 
     @staticmethod
+    def from_str(value: str):
+        return RecordType[value.upper()]
+
+    @staticmethod
     def from_bytes(data: bytes):
         value = int.from_bytes(data, byteorder="big")
         return RecordType.from_int(value)

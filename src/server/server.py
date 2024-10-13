@@ -1,43 +1,13 @@
 from http.client import HTTPException
 from typing import Annotated
 
-from src.server.database import start_database, create_tables
+from src.server.database import create_tables, conn, RecordDB, RecordBase
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import uvicorn
-from fastapi import FastAPI, Form, Request, Header
-from typing import Union
-from pydantic import BaseModel
+from fastapi import FastAPI, Form, Request
 
 
-class RecordBase(BaseModel):
-    label: str
-    value: str
-    record_type: str
-    record_class: str
-    ttl: int
-
-
-class RecordCreate(RecordBase):
-    pass
-
-
-class RecordDB(RecordBase):
-    id: int
-
-    @staticmethod
-    def from_sql_record(record):
-        return RecordDB(
-            id=record[0],
-            label=record[1],
-            value=record[2],
-            record_type=record[3],
-            record_class=record[4],
-            ttl=record[5],
-        )
-
-
-conn = start_database()
 app = FastAPI()
 templates = Jinja2Templates(directory="server/templates")
 
@@ -49,7 +19,7 @@ async def index(request: Request):
 
 @app.get("/records", response_class=HTMLResponse)
 async def list_records(
-    request: Request, hx_request: Annotated[Union[str, None], Header()] = None
+    request: Request,
 ):
     cur = conn.cursor()
     res = cur.execute("SELECT * FROM records")
@@ -62,7 +32,7 @@ async def list_records(
 
 
 @app.post("/records", response_class=HTMLResponse)
-async def create_record(request: Request, record: Annotated[RecordCreate, Form()]):
+async def create_record(request: Request, record: Annotated[RecordBase, Form()]):
     cur = conn.cursor()
     try:
         cur.execute(
@@ -109,5 +79,5 @@ async def delete_record(request: Request, id: int):
 
 
 def start_server():
-    create_tables(conn)
+    create_tables()
     uvicorn.run(app, host="0.0.0.0", port=int("2054"))

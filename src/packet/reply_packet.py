@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.packet.answer import Answer
 from src.packet.header import Header
 from src.packet.question import Question
@@ -8,7 +10,7 @@ class ReplyPacket:
         self,
         header: Header,
         question: Question,
-        answer: Answer,
+        answer: Optional[Answer],
     ):
         self.header = header
         self.question = question
@@ -28,5 +30,7 @@ class ReplyPacket:
 
     def to_bytes(self) -> bytes:
         return (
-            self.header.to_bytes() + self.question.to_bytes() + self.answer.to_bytes()
+            self.header.to_bytes()
+            + self.question.to_bytes()
+            + (self.answer.to_bytes() if self.answer else b"")
         )

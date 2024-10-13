@@ -8,6 +8,10 @@ class RecordClass(Enum):
     HS = 4  # Hesiod (Dryer 87)
 
     @staticmethod
+    def from_str(value: str):
+        return RecordClass[value.upper()]
+
+    @staticmethod
     def from_bytes(data: bytes):
         value = int.from_bytes(data, byteorder="big")
         return RecordClass.from_int(value)
