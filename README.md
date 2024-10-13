@@ -1,6 +1,6 @@
 # Simple Bare Bones DNS Server
 
-This project implements a simple DNS server using Python 3.12, SQLite, and FastAPI. It allows you to create and manage DNS records through an API.
+This project implements a simple DNS server using Python 3.12, SQLite, and FastAPI.
 
 ## Features
 
