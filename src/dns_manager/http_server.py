@@ -1,7 +1,7 @@
 from http.client import HTTPException
 from typing import Annotated
 
-from src.server.database import create_tables, conn, RecordDB, RecordBase
+from src.dns_manager.database import create_tables, conn, RecordDB, RecordBase
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import uvicorn
@@ -9,7 +9,7 @@ from fastapi import FastAPI, Form, Request
 
 
 app = FastAPI()
-templates = Jinja2Templates(directory="server/templates")
+templates = Jinja2Templates(directory="dns_manager/templates")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -78,6 +78,6 @@ async def delete_record(request: Request, id: int):
     )
 
 
-def start_server():
+def start_http_server():
     create_tables()
     uvicorn.run(app, host="0.0.0.0", port=int("2054"))

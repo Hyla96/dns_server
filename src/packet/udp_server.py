@@ -7,7 +7,7 @@ from src.packet.query_packet import QueryPacket
 from src.packet.record_class import RecordClass
 from src.packet.record_type import RecordType
 from src.packet.reply_packet import ReplyPacket
-from src.server.database import get_record
+from src.dns_manager.database import get_record
 
 
 def create_response_packet(query_packet):
@@ -77,11 +77,11 @@ def create_response_packet(query_packet):
     return response_packet
 
 
-def udp_server():
+def start_udp_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("127.0.0.1", 2053))
 
-    print("UDP DNS server listening on localhost:2053")
+    print("UDP DNS dns_manager listening on localhost:2053")
 
     while True:
         data, addr = sock.recvfrom(1024)
