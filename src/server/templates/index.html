@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastAPI + HTMX</title>
+    <title>DNS Manager</title>
     <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for placeholder padding */
         input::placeholder {
             padding-left: 0.5rem;
         }
@@ -36,11 +35,27 @@
                         </div>
                         <div>
                             <label for="record_class" class="block text-sm font-medium text-gray-700">Class</label>
-                            <input type="text" name="record_class" id="record_class" placeholder="IN" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                            <select name="record_class" id="record_class" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                                <option value="IN">IN (Internet)</option>
+                                <option value="CS">CS (CSNET)</option>
+                                <option value="CH">CH (CHAOS)</option>
+                                <option value="HS">HS (Hesiod)</option>
+                            </select>
                         </div>
                         <div>
                             <label for="record_type" class="block text-sm font-medium text-gray-700">Type</label>
-                            <input type="text" name="record_type" id="record_type" placeholder="A" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                            <select name="record_type" id="record_type" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                                <option value="A">A (Host Address)</option>
+                                <option value="NS">NS (Authoritative Name Server)</option>
+                                <option value="CNAME">CNAME (Canonical name for an alias)</option>
+                                <option value="SOA">SOA (Start of a zone of authority)</option>
+                                <option value="PTR">PTR (Domain name pointer)</option>
+                                <option value="MX">MX (Mail exchange)</option>
+                                <option value="TXT">TXT (Text strings)</option>
+                                <option value="AAAA">AAAA (IPv6 Host Address)</option>
+                                <option value="SRV">SRV (Service locator)</option>
+                                <option value="NAPTR">NAPTR (Naming Authority Pointer)</option>
+                            </select>
                         </div>
                         <div>
                             <label for="ttl" class="block text-sm font-medium text-gray-700">TTL</label>
@@ -77,11 +92,5 @@
         </div>
     </main>
 </div>
-
-<script>
-    document.body.addEventListener('htmx:configRequest', (event) => {
-        event.detail.headers['X-CSRFToken'] = 'your-csrf-token-here'; // Replace with your actual CSRF token
-    });
-</script>
 </body>
 </html>
