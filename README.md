@@ -6,7 +6,7 @@ This project implements a simple DNS server using Python 3.12, SQLite, and FastA
 
 - Basic DNS server functionality
 - SQLite database for storing DNS records
-- FastAPI + HTMX for creating and managing DNS records
+- FastAPI + HTMX + Tailwind for creating and managing DNS records
 
 ## Requirements
 
