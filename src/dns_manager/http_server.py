@@ -35,6 +35,9 @@ async def list_records(
 async def create_record(request: Request, record: Annotated[RecordBase, Form()]):
     cur = conn.cursor()
     try:
+        if record.record_type not in ["A", "CNAME"]:
+            raise HTTPException()
+
         cur.execute(
             """
             INSERT INTO records (label, value, record_type, record_class, ttl)
