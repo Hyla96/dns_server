@@ -4,8 +4,6 @@ from src.packet.answer import Answer
 from src.packet.header import Header
 from src.packet.label_sequence import LabelSequence
 from src.packet.query_packet import QueryPacket
-from src.packet.record_class import RecordClass
-from src.packet.record_type import RecordType
 from src.packet.reply_packet import ReplyPacket
 from src.dns_manager.database import get_record
 
@@ -15,8 +13,8 @@ def create_response_packet(query_packet):
 
     record = get_record(
         response_question.label.name,
-        response_question.record_type.name,
-        response_question.record_class.name,
+        response_question.record_type,
+        response_question.record_class,
     )
 
     print(f"Record: {record}")
@@ -62,11 +60,11 @@ def create_response_packet(query_packet):
     print(f"Record value {record.value}")
     response_answer = Answer(
         label=LabelSequence(name=record.label),
-        record_type=RecordType.from_str(record.record_type),
-        record_class=RecordClass.from_str(record.record_class),
+        record_type=record.record_type,
+        record_class=record.record_class,
         ttl=record.ttl,
         rd_length=len(record.value),
-        rdata=record.value.encode("utf-8"),
+        rdata=record.value,
     )
 
     # Create the response packet

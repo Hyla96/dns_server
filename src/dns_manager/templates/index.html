@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DNS Manager</title>
     <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         input::placeholder {
@@ -24,7 +25,7 @@
         <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <div class="px-4 py-6 sm:px-0">
                 <div class="rounded-lg border-4 border-dashed border-gray-200 p-4 sm:p-6 lg:p-8">
-                    <form hx-post="/records" hx-target="#records" hx-swap="beforeend" hx-on::after-request="this.reset()" class="space-y-4 md:space-y-0 md:flex md:items-end md:space-x-4">
+                    <form hx-ext="json-enc" hx-post="/records" hx-target="#records" hx-swap="beforeend" hx-on::after-request="this.reset()" class="space-y-4 md:space-y-0 md:flex md:items-end md:space-x-4">
                         <div class="flex-grow">
                             <label for="label" class="block text-sm font-medium text-gray-700">Label</label>
                             <input type="text" name="label" id="label" placeholder="example.com" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
@@ -36,30 +37,27 @@
                         <div>
                             <label for="record_class" class="block text-sm font-medium text-gray-700">Class</label>
                             <select name="record_class" id="record_class" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
-                                <option value="IN">IN (Internet)</option>
-                                <option value="CS">CS (CSNET)</option>
-                                <option value="CH">CH (CHAOS)</option>
-                                <option value="HS">HS (Hesiod)</option>
+                                <option value=1>IN (Internet)</option>
+                                <option value="2">CS (CSNET)</option>
+                                <option value="3">CH (CHAOS)</option>
+                                <option value="4">HS (Hesiod)</option>
                             </select>
                         </div>
                         <div>
                             <label for="record_type" class="block text-sm font-medium text-gray-700">Type</label>
                             <select name="record_type" id="record_type" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
-                                <option value="A">A (Host Address)</option>
-                                <option value="NS">NS (Authoritative Name Server)</option>
-                                <option value="CNAME">CNAME (Canonical name for an alias)</option>
-                                <option value="SOA">SOA (Start of a zone of authority)</option>
-                                <option value="PTR">PTR (Domain name pointer)</option>
-                                <option value="MX">MX (Mail exchange)</option>
-                                <option value="TXT">TXT (Text strings)</option>
-                                <option value="AAAA">AAAA (IPv6 Host Address)</option>
-                                <option value="SRV">SRV (Service locator)</option>
-                                <option value="NAPTR">NAPTR (Naming Authority Pointer)</option>
+                                <option value="1">A (Host Address)</option>
+                                <option value="2">NS (Authoritative Name Server)</option>
+                                <option value="5">CNAME (Canonical name for an alias)</option>
+                                <option value="6">SOA (Start of a zone of authority)</option>
+                                <option value="12">PTR (Domain name pointer)</option>
+                                <option value="15">MX (Mail exchange)</option>
+                                <option value="16">TXT (Text strings)</option>
                             </select>
                         </div>
                         <div>
                             <label for="ttl" class="block text-sm font-medium text-gray-700">TTL</label>
-                            <input type="number" name="ttl" id="ttl" placeholder="3600" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                            <input type="number" name="ttl" id="ttl" value="3600" placeholder="3600" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
                         </div>
                         <div>
                             <button type="submit" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Create</button>
