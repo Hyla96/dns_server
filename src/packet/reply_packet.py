@@ -29,8 +29,12 @@ class ReplyPacket:
         )
 
     def to_bytes(self) -> bytes:
-        return (
-            self.header.to_bytes()
-            + self.question.to_bytes()
-            + (self.answer.to_bytes() if self.answer else b"")
-        )
+        header_bytes = self.header.to_bytes()
+        question_bytes = self.question.to_bytes()
+        answer_bytes = self.answer.to_bytes() if self.answer else b""
+
+        print(f"Header bytes: {header_bytes.hex()}")
+        print(f"Question bytes: {question_bytes.hex()}")
+        print(f"Answer bytes: {answer_bytes.hex()}")
+
+        return header_bytes + question_bytes + answer_bytes

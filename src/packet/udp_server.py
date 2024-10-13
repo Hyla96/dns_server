@@ -49,7 +49,7 @@ def create_response_packet(query_packet):
         authoritative_answer=1,  # Set to 1 if you're authoritative for the zone
         truncation=0,
         recursion_desired=query_packet.header.recursion_desired,
-        recursion_available=0,
+        recursion_available=1,
         reserved=0,
         response_code=0,
         question_count=1,
@@ -58,13 +58,15 @@ def create_response_packet(query_packet):
         additional_record_count=0,
     )
 
+    print(f"Record length {len(record.value)}")
+    print(f"Record value {record.value}")
     response_answer = Answer(
         label=LabelSequence(name=record.label),
         record_type=RecordType.from_str(record.record_type),
         record_class=RecordClass.from_str(record.record_class),
         ttl=record.ttl,
         rd_length=len(record.value),
-        rdata=bytes(record.value, "ascii"),
+        rdata=record.value.encode("utf-8"),
     )
 
     # Create the response packet
@@ -86,9 +88,11 @@ def udp_server():
         print(f"Received UDP data from {addr}")
 
         query_packet = QueryPacket.from_bytes(bytearray(data))
+
         print(
             f"UDP Query for: {query_packet.question.label.name}, Type: {query_packet.question.record_type}, Class: {query_packet.question.record_class}"
         )
+        print(f"UDP Query data {data}")
 
         response_packet = create_response_packet(query_packet)
 
